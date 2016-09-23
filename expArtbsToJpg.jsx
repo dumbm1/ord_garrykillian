@@ -1,4 +1,21 @@
-function scaleAndExp_00 () {
+function getOpenPhotoshopResolution () {
+  var d         = activeDocument,
+      artbAct   = d.artboards[d.artboards.getActiveArtboardIndex ()],
+      artbW     = artbAct.artboardRect[2] - artbAct.artboardRect[0],
+      artbH     = artbAct.artboardRect[1] - artbAct.artboardRect[3],
+      LONG_SIDE = 5000,
+      BASE_RES  = 72,
+      openShopRes;
+
+  if (artbW >= artbH) {
+    openShopRes = LONG_SIDE * BASE_RES / artbW;
+  } else {
+    openShopRes = LONG_SIDE * BASE_RES / artbH;
+  }
+  return openShopRes;
+}
+
+function scaleAndExp_origin () {
   var doc      = app.activeDocument;
   var abActive = doc.artboards[doc.artboards.getActiveArtboardIndex ()];
 
@@ -31,22 +48,4 @@ function scaleAndExp_00 () {
 
     doc.exportFile (fileSpec, ExportType.JPEG, exportOptions);
   }
-}
-
-function scaleAndExp_01 () {
-  var doc       = app.activeDocument,
-      abActive  = doc.artboards[doc.artboards.getActiveArtboardIndex ()],
-      artWidth  = abActive.artboardRect[2] - abActive.artboardRect[0],
-      artHeight = abActive.artboardRect[1] - abActive.artboardRect[3],
-      RES_FACT  = 5184, // 72 points in inch
-      LONG_SIDE = 5000,
-      outRes,
-      shortSide;
-  if (artWidth >= artHeight) {
-    shortSide = (LEN * artHeight) / artWidth;
-  } else {
-    shortSide = (LEN * artWidth) / artHeight;
-  }
-  outRes = (LONG_SIDE * shortSide ) / RES_FACT;
-  return outRes;
 }
