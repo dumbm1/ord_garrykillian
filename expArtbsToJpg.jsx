@@ -101,16 +101,15 @@
 //      jpgSaveOpts.scans = 3; // number [3..5] only for when formatOptions = FormatOptions.PROGRESSIVE
 
       try {
-        for (var i = 1; i < artbsLen + 2; i++) {
+        for (var i = 1; i < artbsLen + 1; i++) {
           ( i < 10 ) ? jpgPath = fullPath + '-0' + i : jpgPath = fullPath + '-' + i;
           pdfOpenOpts.page       = i;
-          pdfOpenOpts.resolution = res[i];
+          pdfOpenOpts.resolution = res[i-1];
           app.open (pdfFile, pdfOpenOpts);
           app.activeDocument.saveAs (new File (jpgPath), jpgSaveOpts, true);
           app.activeDocument.close (SaveOptions.DONOTSAVECHANGES);
         }
       } catch (e) {
-        alert (e);
       } finally {
         pdfFile.remove ();
       }
