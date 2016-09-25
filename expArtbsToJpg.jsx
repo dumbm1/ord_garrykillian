@@ -1,5 +1,48 @@
-//@target illustrator-20
-(function main () {
+/**
+ * Autor: garrykillian
+ * Then creating action with this script and batch for multiple files.
+ * For batch convert PNG to JPG use XnConvert.
+ * */
+function expToJpgViaPng () {
+  var doc      = app.activeDocument;
+  var abActive = doc.artboards[doc.artboards.getActiveArtboardIndex ()];
+
+  var artWidth  = abActive.artboardRect[2] - abActive.artboardRect[0];
+  var artHeight = abActive.artboardRect[1] - abActive.artboardRect[3];
+
+  if (artWidth >= artHeight) {
+    var fileName      = doc.fullName.toString ();
+    var exportOptions = new ExportOptionsPNG24 ();
+
+    var fileSpec                   = new File (fileName);
+    exportOptions.antiAliasing     = true;
+    exportOptions.artBoardClipping = true;
+    exportOptions.transparency     = false;
+    exportOptions.qualitySetting   = 100;
+    exportOptions.horizontalScale  = (5000 / artWidth) * 100;
+    exportOptions.verticalScale    = (5000 / artWidth) * 100;
+
+    doc.exportFile (fileSpec, ExportType.PNG24, exportOptions);
+  }
+  else {
+    var fileName      = doc.fullName.toString ();
+    var exportOptions = new ExportOptionsPNG24 ();
+
+    var fileSpec                   = new File (fileName);
+    exportOptions.antiAliasing     = true;
+    exportOptions.artBoardClipping = true;
+    exportOptions.transparency     = false;
+    exportOptions.qualitySetting   = 100;
+    exportOptions.verticalScale    = (5000 / artHeight) * 100;
+    exportOptions.horizontalScale  = (5000 / artHeight) * 100;
+
+    doc.exportFile (fileSpec, ExportType.PNG24, exportOptions);
+  }
+  doc.close (SaveOptions.DONOTSAVECHANGES);
+}
+
+// todo: convert the resolution to 72 dpi in photoshop
+function expToJpgViaPdf () {
   var d                  = activeDocument;
   var storeInteractLavel = app.userInteractionLevel;
 
@@ -116,4 +159,4 @@
       }
     }
   }
-} ());
+}
